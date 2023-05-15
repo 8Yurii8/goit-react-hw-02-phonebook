@@ -1,6 +1,6 @@
 import React from 'react';
 import { Formik, Field, Form } from 'formik';
-
+import PropTypes from 'prop-types';
 export const Filter = ({ value, onChange }) => {
   return (
     <Formik>
@@ -16,4 +16,9 @@ export const Filter = ({ value, onChange }) => {
       </Form>
     </Formik>
   );
+};
+
+Filter.propTypes = {
+  value: PropTypes.string.isRequired,
+  onChange: PropTypes.func.isRequired,
 };

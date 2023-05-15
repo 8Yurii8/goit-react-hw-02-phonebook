@@ -1,7 +1,5 @@
 import React, { Component } from 'react';
 
-import PropTypes from 'prop-types';
-
 import { Filter } from './filter';
 
 import css from './style.module.css';
@@ -14,32 +12,29 @@ class Phonebook extends Component {
   state = {
     contacts: [],
     filter: '',
-    name: '',
-    number: '',
   };
 
-  handleAddContact = (values, actions) => {
-    if (this.isContactExist(values.name, values.number)) {
-      alert(
-        `name ${values.name} number ${values.number} is already in contacts`
-      );
+  handleAddContact = ({ name, number }) => {
+    if (this.isContactExist(name, number)) {
+      alert(`name ${name} number ${number} is already in contacts`);
       return;
     }
 
     const newContact = {
       id: Date.now(),
-      name: values.name,
-      number: values.number,
+      name,
+      number,
     };
     this.setState(prevState => ({
       contacts: [...prevState.contacts, newContact],
     }));
-    actions.resetForm();
   };
 
   isContactExist = (name, number) => {
     return this.state.contacts.some(
-      contact => contact.name === name && contact.number === number
+      contact =>
+        contact.name.toLowerCase() === name.toLowerCase() &&
+        contact.number === number
     );
   };
 
@@ -79,31 +74,3 @@ class Phonebook extends Component {
 }
 
 export default Phonebook;
-
-Phonebook.propTypes = {
-  contacts: PropTypes.arrayOf(
-    PropTypes.shape({
-      id: PropTypes.number,
-      name: PropTypes.string,
-      number: PropTypes.number,
-    })
-  ),
-  filter: PropTypes.string,
-  handleAddContact: PropTypes.func,
-  deleteContacts: PropTypes.func,
-  changeFilter: PropTypes.func,
-};
-
-Phonebook.propTypes = {
-  contacts: PropTypes.arrayOf(
-    PropTypes.shape({
-      id: PropTypes.number.isRequired,
-      name: PropTypes.string.isRequired,
-      number: PropTypes.string.isRequired,
-    })
-  ),
-  filter: PropTypes.string,
-  handleAddContact: PropTypes.func,
-  onDeleteContact: PropTypes.func,
-  changeFilter: PropTypes.func,
-};
